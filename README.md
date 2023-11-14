@@ -27,8 +27,7 @@
   [作業一](https://github.com/kw404/LATIA112-1/blob/main/HW1/HW-1.ipynb)
 
 # 作業二
-
-
+  [作業二](https://github.com/kw404/LATIA112-1/tree/main/HW2)
 # 作業三
 
 
