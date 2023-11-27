@@ -29,6 +29,6 @@
 # 作業二
   [作業二](https://github.com/kw404/LATIA112-1/tree/main/HW2)
 # 作業三
-
+  [作業三](https://github.com/kw404/LATIA112-1/blob/main/HW3)
 
 # 專題連結區
