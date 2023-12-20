@@ -6,10 +6,18 @@
         <title>大專院校人數統計</title>
         <script src ="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8" ></script>
     </head>
+
     <body>
         <div id="school_SorI" style="width:600px;height:250px;"></div>
         <div id="bar-chart" style="width:600px;height:250px;"></div>
         <div id="exchangeData">{{exchangeData}}</div>
+        <p>{{exchangeData}}</p>
+        <!-- <div id="exchangeData2">{{exchangeData2}}</div>
+        <div id="exchangeData3">{{exchangeData3}}</div>
+        <div id="exchangeData4">{{exchangeData4}}</div>
+        <div id="exchangeData5">{{exchangeData5}}</div>
+        <div id="exchangeData6">{{exchangeData6}}</div> -->
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
         
     </body>
 </html>

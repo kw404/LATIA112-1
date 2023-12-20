@@ -1,5 +1,5 @@
 let school_kind = document.getElementById('school_SorI');
-let school_data = JSON.parse(document.getElementById('exchangeData').innerHTML);
+let school_data = JSON.parse(document.getElementById("exchangeData").innerHTML);
 
 console.log(school_data);
 

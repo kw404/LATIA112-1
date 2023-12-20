@@ -4,8 +4,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
-@app.route("/")
-def form():
+def process_data():
     data = pd.read_csv(
         "https://stats.moe.gov.tw/files/detail/111/111_student.csv", encoding="utf-8"
     )
@@ -17,10 +16,13 @@ def form():
             school_SorI.append("國立")
         else:
             school_SorI.append("私立")
-
     data["公私立"] = school_SorI
-    data_buf = data.drop_duplicates(subset=["學校名稱"])
 
+    return data
+
+
+def deal_data(data):
+    data_buf = data.drop_duplicates(subset=["學校名稱"])
     school_name = data_buf["學校名稱"].unique()
     school_count = data_buf["公私立"].value_counts()
     school_SorI = data_buf["公私立"].unique()
@@ -65,17 +67,23 @@ def form():
     data_buf = data.drop_duplicates(subset=["學校名稱", "等級別"])
     grade_count = data_buf["等級別"].value_counts()
     grade_name = data_buf["等級別"].unique()
+    return school_count, school_num, school_city, grade_count, grade_name
 
-    return render_template(
-        "index.html",
-        exchangeData=school_count,
-        # school_SorI,
-        # school_city,
-        # city_list,
-        # grade_count,
-        # grade_name,
-    )
+
+@app.route("/")
+def form():
+    data = process_data()
+    (
+        school_count,
+        school_num,
+        school_city,
+        grade_count,
+        grade_name,
+    ) = deal_data(data)
+    result = school_count.to_json(orient="records")
+    print(school_count)
+    return render_template("index.html", exchangedata=school_count)
 
 
 if __name__ == "__main__":
-    app.run()
+    a = app.run()
