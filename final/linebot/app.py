@@ -20,6 +20,7 @@ from linebot.v3.messaging import (
     ReplyMessageRequest,
     TextMessage,
 )
+from linebot import LineBotApi, WebhookHandler
 
 # Config Parser
 config = configparser.ConfigParser()
@@ -35,6 +36,7 @@ app = Flask(__name__)
 
 channel_access_token = config["Line"]["CHANNEL_ACCESS_TOKEN"]
 channel_secret = config["Line"]["CHANNEL_SECRET"]
+line_bot_api = LineBotApi("apikey")
 if channel_secret is None:
     print("Specify LINE_CHANNEL_SECRET as environment variable.")
     sys.exit(1)
@@ -87,32 +89,11 @@ def message_text(event):
         )
 
 
-def azure_sentiment(user_input):
-    text_analytics_client = TextAnalyticsClient(
-        endpoint=config["AzureLanguage"]["END_POINT"],
-        credential=credential,
-        language="zh-Hant",
+def image_process(message):
+    image_url = line_bot_api.get_message_content(message_id).content_url
+    vision_source = sdk.VisionSource(
+        url="https://learn.microsoft.com/azure/ai-services/computer-vision/media/quickstarts/presentation.png"
     )
-    documents = [user_input]
-    response = text_analytics_client.analyze_sentiment(
-        documents, show_opinion_mining=True
-    )
-    print(response)
-    docs = [doc for doc in response if not doc.is_error]
-    for idx, doc in enumerate(docs):
-        print(f"Document text : {documents[idx]}")
-        print(f"Overall sentiment : {doc.sentiment}")
-
-    result = text_analytics_client.extract_key_phrases(documents)
-    print(result)
-    for idx, doc in enumerate(result):
-        if not doc.is_error:
-            print(
-                "Key phrases in article #{}: {}".format(
-                    idx + 1, ", ".join(doc.key_phrases)
-                )
-            )
-    return docs[0].sentiment, docs[0].confidence_scores, doc.key_phrases
 
 
 if __name__ == "__main__":
